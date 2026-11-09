@@ -47,6 +47,7 @@ select,input[type=text],input[type=tel],textarea{background:var(--bg);border:1px
 .meta{display:grid;gap:8px;min-width:0}
 .name{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid2 select{padding:10px 6px 10px 10px;font-size:15px}
 .qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:44px}
 .qty button{width:44px;min-height:44px;border:0;background:var(--bg);font-size:20px;cursor:pointer}
 .qty span{flex:1;text-align:center;font-weight:600;padding:0 6px;white-space:nowrap}
@@ -111,7 +112,7 @@ footer{padding:24px 0 40px;color:var(--muted);font-size:14px}
 <select id="cdeliv" aria-label="Отримання"><option>Заберу в лабораторії</option><option>Потрібна доставка</option></select>
 <textarea id="ccomm" rows="2" placeholder="Коментар до замовлення"></textarea>
 </div>
-<div class="row"><button class="btn" id="shareBtn" disabled>Надіслати замовлення</button><button class="btn alt" id="tgBtn" disabled>Відкрити чат із текстом</button><button class="btn alt" id="saveBtn" disabled>Зберегти ZIP</button></div>
+<div class="row"><button class="btn" id="sendBtn" disabled>Надіслати замовлення</button><button class="btn alt" id="tgBtn" disabled>Відкрити чат із текстом</button><button class="btn alt" id="saveBtn" disabled>Зберегти ZIP</button></div>
 <div class="msg lbl">Замовлення з фото надійде в лабораторію. Ми зв’яжемося з вами за вказаним телефоном.</div>
 <div class="msg" id="omsg"></div>
 </section>
@@ -217,7 +218,7 @@ function render(){
  const n=items.reduce((s,it)=>s+it.qty,0),sum=items.reduce((s,it)=>s+it.qty*fmtOf(it.fmt).p,0);
  $('#cnt').textContent=n?`Фото: ${items.length}, до друку: ${n}`:'Немає фото';
  $('#sum').textContent=sum.toLocaleString('uk-UA')+' грн';
- $('#saveBtn').disabled=$('#tgBtn').disabled=$('#shareBtn').disabled=!items.length;
+ $('#saveBtn').disabled=$('#tgBtn').disabled=$('#sendBtn').disabled=!items.length;
 }
 
 function addFiles(list){
@@ -315,8 +316,8 @@ $('#saveBtn').onclick=async()=>{
  }catch(e){msg.textContent=e&&e.code==='declined'?'Збереження скасовано.':'Не вдалося підготувати файл. Спробуйте менше фото за раз.'}
 };
 
-$('#shareBtn').onclick=async()=>{
- const msg=$('#omsg'),b=$('#shareBtn');
+$('#sendBtn').onclick=async()=>{
+ const msg=$('#omsg'),b=$('#sendBtn');
  if(!$('#cphone').value.trim()){msg.textContent='Вкажіть телефон, щоб ми могли з вами зв’язатися.';$('#cphone').focus();return}
  b.disabled=true;msg.textContent='Надсилаємо…';
  try{
